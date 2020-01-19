@@ -81,7 +81,7 @@ class Mysql extends React.Component {
     dispatch({
       type: 'mysql/fetchMysql',
       payload: {
-        query: 'show databases',
+        sql: 'show databases',
         instance: this.state.instance,
       },
     })
@@ -102,7 +102,7 @@ class Mysql extends React.Component {
     dispatch({
       type: 'mysql/fetchMysql',
       payload: {
-        query: this.state.input,
+        sql: this.state.input,
         database: this.state.database,
         instance: this.state.instance,
       },
