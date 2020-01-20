@@ -35,7 +35,11 @@ const MysqlModel = {
             data: response.data
           },
         });
-      } else {
+      }
+      if (response.status == '201') {
+        message.success(response.data, 10)
+      }
+      if (response.status == '400') {
         message.error(response.data, 10)
       }
     },

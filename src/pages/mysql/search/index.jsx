@@ -4,12 +4,14 @@ import {connect} from 'dva';
 import styles from './index.less';
 
 const {Option} = Select;
+const {TextArea} = Input;
 
 class Mysql extends React.Component {
   state = {
     data: '',
     columns: '',
     sql: '',
+    sqls: {},
     databases: '',
     input: '',
     database: '',
@@ -59,6 +61,20 @@ class Mysql extends React.Component {
   }
 
 
+  formatData = () => {
+    let arr_sql = {}
+    let sql = this.state.input
+    // console.log(sql.split(/[\n]/))
+    arr_sql['sqls'] = sql.split(/[\n]/)
+    // console.log(JSON.stringify(arr_sql))
+    this.setState({
+      sqls: JSON.stringify(arr_sql)
+    }, () => {
+      this.getdata()
+    })
+  }
+
+
   getInstances = () => {
     const {dispatch} = this.props;
     dispatch({
@@ -66,7 +82,7 @@ class Mysql extends React.Component {
     })
       .then(() => {
         const {instance} = this.props.mysql;
-        console.log(instance)
+        // console.log(instance)
         if (instance) {
           this.setState({
             instances: instance,
@@ -78,10 +94,12 @@ class Mysql extends React.Component {
 
   getdatabases = () => {
     const {dispatch} = this.props;
+    let arr_sql = {}
+    arr_sql['sqls'] = ['show databases']
     dispatch({
       type: 'mysql/fetchMysql',
       payload: {
-        sql: 'show databases',
+        sqls: JSON.stringify(arr_sql),
         instance: this.state.instance,
       },
     })
@@ -102,9 +120,9 @@ class Mysql extends React.Component {
     dispatch({
       type: 'mysql/fetchMysql',
       payload: {
-        sql: this.state.input,
         database: this.state.database,
         instance: this.state.instance,
+        sqls: this.state.sqls
       },
     })
       .then(() => {
@@ -163,7 +181,7 @@ class Mysql extends React.Component {
           </Select>
         </div>
 
-        <div><Input
+        <div><TextArea
           placeholder="请输入查询语句"
           onChange={this.InputChange}
           value={this.state.input}
@@ -174,7 +192,7 @@ class Mysql extends React.Component {
         <div>
           <Button
             type="primary"
-            onClick={() => this.getdata()}
+            onClick={() => this.formatData()}
             loading={loading}
             disabled={this.state.choose}
           >查询</Button>
