@@ -17,3 +17,8 @@ export async function realLogin(params) {
   });
 }
 
+export async function Logout() {
+  return request(`http://127.0.0.1:5000/logout`);
+}
+
+

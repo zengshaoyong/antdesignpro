@@ -1,7 +1,7 @@
 import {stringify} from 'querystring';
 import router from 'umi/router';
 import {fakeAccountLogin, getFakeCaptcha} from '@/services/login';
-import {realLogin} from '@/services/login';
+import {realLogin,Logout} from '@/services/login';
 import {setAuthority} from '@/utils/authority';
 import {setRoute} from "@/utils/authority";
 import {getPageQuery} from '@/utils/utils';
@@ -55,8 +55,11 @@ const Model = {
       yield call(getFakeCaptcha, payload);
     },
 
-    logout() {
+    * logout({payload}, {call, put}) {
       const {redirect} = getPageQuery(); // Note: There may be security issues, please note
+
+      const response = yield call(Logout, payload);
+      // console.log(response)
 
       if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
