@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, notification, Card, Input, Table, Select} from 'antd';
 import {connect} from 'dva';
+import {message} from "antd";
 import styles from './index.less';
 
 const {Option} = Select;
@@ -64,14 +65,19 @@ class Mysql extends React.Component {
   formatData = () => {
     let arr_sql = {}
     let sql = this.state.input
-    // console.log(sql.split(/[\n]/))
-    arr_sql['sqls'] = sql.split(/[\n]/)
-    // console.log(JSON.stringify(arr_sql))
-    this.setState({
-      sqls: JSON.stringify(arr_sql)
-    }, () => {
-      this.getdata()
-    })
+    if (sql.trim() != '') {
+      // console.log(sql.split(/[\n]/))
+      arr_sql['sqls'] = sql.split(/[\n]/)
+      // console.log(JSON.stringify(arr_sql))
+      this.setState({
+        sqls: JSON.stringify(arr_sql)
+      }, () => {
+        this.getdata()
+      })
+    }
+    else{
+      message.error('请输入SQL语句')
+    }
   }
 
 
@@ -195,7 +201,7 @@ class Mysql extends React.Component {
             onClick={() => this.formatData()}
             loading={loading}
             disabled={this.state.choose}
-          >查询</Button>
+          >执行</Button>
           <Button
             onClick={() => this.reset()}
             disabled={this.state.choose}
