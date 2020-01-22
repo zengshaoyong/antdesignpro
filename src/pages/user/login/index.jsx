@@ -11,7 +11,7 @@ const {Tab, UserName, Password, Mobile, Captcha, Submit} = LoginComponents;
 class Login extends Component {
   loginForm = undefined;
   state = {
-    type: 'account',
+    type: 'ldap',
     autoLogin: true,
   };
   changeAutoLogin = e => {
