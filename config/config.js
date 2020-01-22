@@ -102,6 +102,7 @@ export default {
             {
               path: '/welcome',
               name: 'welcome',
+              icon: "smile",
               component: './Welcome',
               authority: ['1'],
               // hideInMenu: true,
@@ -109,6 +110,7 @@ export default {
             {
               name: 'Kubernetes',
               path: '/kubernetes',
+              icon: "dashboard",
               authority: ['1'],
               "routes": [
                 {
@@ -122,12 +124,13 @@ export default {
             {
               name: 'Mysql',
               path: '/mysql',
+              icon: "database",
               authority: ['1'],
               "routes": [
                 {
                   component: './mysql/search',
                   path: "/mysql/search",
-                  name: "查询",
+                  name: "执行",
                   authority: ['1'],
                 },
               ]

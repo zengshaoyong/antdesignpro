@@ -67,15 +67,21 @@ class Mysql extends React.Component {
     let sql = this.state.input
     if (sql.trim() != '') {
       // console.log(sql.split(/[\n]/))
-      arr_sql['sqls'] = sql.split(/[\n]/)
+      // arr_sql['sqls'] = sql.split(/[\n]/)
+      let arr = sql.split(/[\n]/)
+      arr.forEach((item, index) => {
+        if (item == "") {
+          arr.splice(index, 1)
+        }
+      })
+      arr_sql['sqls'] = arr
       // console.log(JSON.stringify(arr_sql))
       this.setState({
         sqls: JSON.stringify(arr_sql)
       }, () => {
         this.getdata()
       })
-    }
-    else{
+    } else {
       message.error('请输入SQL语句')
     }
   }
@@ -188,7 +194,7 @@ class Mysql extends React.Component {
         </div>
 
         <div><TextArea
-          placeholder="请输入查询语句"
+          placeholder="请输入SQL语句"
           onChange={this.InputChange}
           value={this.state.input}
           disabled={this.state.choose}
