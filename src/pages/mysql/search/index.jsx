@@ -68,14 +68,16 @@ class Mysql extends React.Component {
     if (sql.trim() != '') {
       // console.log(sql.split(/[\n]/))
       // arr_sql['sqls'] = sql.split(/[\n]/)
-      let arr = sql.split(/[\n]/)
+      let arr = sql.replace(/[\n]/, " ")
+      let arr2 = arr.split(";")
       let arr_new = []
-      arr.forEach((item, index) => {
+      arr2.forEach((item, index) => {
         if (item.trim() != "") {
           arr_new.push(item.trim())
         }
       })
       arr_sql['sqls'] = arr_new
+      // console.log(arr_new)
       // console.log(JSON.stringify(arr_sql))
       this.setState({
         sqls: JSON.stringify(arr_sql)
