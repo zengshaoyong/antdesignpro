@@ -1,12 +1,15 @@
 import React from 'react';
 import {Button, notification, Card, Input, Table, Select} from 'antd';
 import {connect} from 'dva';
-import {message} from "antd";
+import {message, Tooltip} from "antd";
 import ExportJsonExcel from "js-export-excel";
 import styles from './index.less';
 
 const {Option} = Select;
 const {TextArea} = Input;
+
+const text = <span><p>每句结尾必须带有英文符";"分号，否则连续的多条语句将不被识别！</p><p>导出Excel功能按钮将在查询结束后生效</p><p>此处限制执行频率为每两秒一次</p>
+</span>;
 
 class Mysql extends React.Component {
   state = {
@@ -66,8 +69,6 @@ class Mysql extends React.Component {
 
 
   handleExport = () => {
-    // const { ReqDetailList } = this.props;    // 网络请求命名空间
-    // const{columns} = this.state;      // 需要放在state里边,Table，Columns
     const option = {};
 
     option.fileName = 'excel';
@@ -159,7 +160,16 @@ class Mysql extends React.Component {
       data: '',
       columns: '',
       export: true,
+      choose: true,
     })
+    this.timer_two = setTimeout(
+      () => {
+        this.setState({
+          choose: false,
+        })
+      },
+      2000
+    );
     const {dispatch} = this.props;
     dispatch({
       type: 'mysql/fetchMysql',
@@ -201,6 +211,13 @@ class Mysql extends React.Component {
 
     return (
       <div>
+
+        <div id='div'>
+          <Tooltip title={text}>
+            <span>注意事项,请先把鼠标移到此处</span>
+          </Tooltip>
+        </div>
+
         <div>
           <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectInstanceChange} placeholder='请选择实例'
                   loading={loading}>
