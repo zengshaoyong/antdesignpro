@@ -104,20 +104,20 @@ export default {
               name: 'welcome',
               icon: "smile",
               component: './Welcome',
-              authority: ['1'],
+              authority: ['0'],
               // hideInMenu: true,
             },
             {
               name: 'Kubernetes',
               path: '/kubernetes',
               icon: "dashboard",
-              authority: ['1'],
+              authority: ['2'],
               "routes": [
                 {
                   component: './kubernetes/dashboard',
                   path: "/kubernetes/dashboard",
                   name: "dashboard",
-                  authority: ['1'],
+                  authority: ['2'],
                 },
               ]
             },
