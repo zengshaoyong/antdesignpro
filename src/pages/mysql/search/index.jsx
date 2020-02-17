@@ -132,6 +132,10 @@ class Mysql extends React.Component {
 
 
   getdata = () => {
+    this.setState({
+      data: '',
+      columns: '',
+    })
     const {dispatch} = this.props;
     dispatch({
       type: 'mysql/fetchMysql',
@@ -159,10 +163,10 @@ class Mysql extends React.Component {
               columns: clumn
             })
           })
-          dispatch({
-            type: 'mysql/resetData'
-          })
         }
+        dispatch({
+          type: 'mysql/resetData'
+        })
       });
   };
 

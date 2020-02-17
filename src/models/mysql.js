@@ -1,10 +1,11 @@
 import {Mysql, Instance} from "@/services/mysql";
-import {message} from "antd";
+import {message, notification} from "antd";
 
 const MysqlModel = {
   namespace: 'mysql',
   state: {
     data: [],
+    status: '',
     instance: '',
   },
 
@@ -32,15 +33,34 @@ const MysqlModel = {
         yield put({
           type: 'save',
           payload: {
-            data: response.data
+            data: response.data,
+            status: response.status,
           },
         });
       }
       if (response.status == '201') {
-        message.success(response.data, 10)
+        notification.open({
+          message: '执行成功',
+          description:
+          response.data,
+          duration: 0,
+          style: {
+            width: 600,
+            marginLeft: 335 - 600,
+          },
+        });
       }
       if (response.status == '400') {
-        message.error(response.data, 10)
+        notification.open({
+          message: '执行异常',
+          description:
+          response.data,
+          duration: 0,
+          style: {
+            width: 600,
+            marginLeft: 335 - 600,
+          },
+        });
       }
     },
 
