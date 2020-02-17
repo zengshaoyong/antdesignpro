@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, notification, Card, Input, Table, Select} from 'antd';
 import {connect} from 'dva';
 import {message} from "antd";
+import ExportJsonExcel from "js-export-excel";
 import styles from './index.less';
 
 const {Option} = Select;
@@ -19,6 +20,7 @@ class Mysql extends React.Component {
     instances: '',
     instance: '',
     choose: true,
+    export: true,
   };
 
 
@@ -58,8 +60,29 @@ class Mysql extends React.Component {
       input: '',
       data: '',
       columns: '',
+      export: true,
     })
   }
+
+
+  handleExport = () => {
+    // const { ReqDetailList } = this.props;    // 网络请求命名空间
+    // const{columns} = this.state;      // 需要放在state里边,Table，Columns
+    const option = {};
+
+    option.fileName = 'excel';
+    option.datas = [
+      {
+        sheetData: this.state.data,
+        sheetName: 'ExcelName',
+        sheetFilter: this.state.columns.map(item => item.dataIndex),
+        sheetHeader: this.state.columns.map(item => item.title),
+        columnWidths: this.state.columns.map(() => 10),
+      },
+    ];
+    const toExcel = new ExportJsonExcel(option);
+    toExcel.saveExcel();
+  };
 
 
   formatData = () => {
@@ -135,6 +158,7 @@ class Mysql extends React.Component {
     this.setState({
       data: '',
       columns: '',
+      export: true,
     })
     const {dispatch} = this.props;
     dispatch({
@@ -160,7 +184,8 @@ class Mysql extends React.Component {
               }
             })
             this.setState({
-              columns: clumn
+              columns: clumn,
+              export: false,
             })
           })
         }
@@ -220,6 +245,10 @@ class Mysql extends React.Component {
             onClick={() => this.reset()}
             disabled={this.state.choose}
           >重置</Button>
+          <Button
+            onClick={this.handleExport}
+            disabled={this.state.export}
+          >导出Excel</Button>
         </div>
         {
           this.state.columns ?
