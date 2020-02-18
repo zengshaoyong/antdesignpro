@@ -1,11 +1,13 @@
 import request from '@/utils/request';
 
+let PYTHONAPI = window.requestURL || '';
+
 export async function Instance(payload) {
-  return request(`http://127.0.0.1:5000/instance`);
+  return request(`${PYTHONAPI}/instance`);
 }
 
 export async function Mysql(params) {
-  return request('http://127.0.0.1:5000/mysql', {
+  return request(`${PYTHONAPI}/mysql`, {
     method: 'POST',
     data: params,
   });

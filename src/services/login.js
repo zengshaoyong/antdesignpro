@@ -1,4 +1,7 @@
 import request from '@/utils/request';
+import config from "../../public/config"
+
+let PYTHONAPI = window.requestURL || '';
 
 export async function fakeAccountLogin(params) {
   return request('/api/login/account', {
@@ -6,19 +9,21 @@ export async function fakeAccountLogin(params) {
     data: params,
   });
 }
+
 export async function getFakeCaptcha(mobile) {
   return request(`/api/login/captcha?mobile=${mobile}`);
 }
 
 export async function realLogin(params) {
-  return request('http://127.0.0.1:5000/login', {
+  console.log(config)
+  return request(`${PYTHONAPI}/login`, {
     method: 'POST',
     data: params,
   });
 }
 
 export async function Logout() {
-  return request(`http://127.0.0.1:5000/logout`);
+  return request(`${PYTHONAPI}/logout`);
 }
 
 

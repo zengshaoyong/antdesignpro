@@ -1,5 +1,7 @@
 import request from '@/utils/request';
 
+let PYTHONAPI = window.requestURL || '';
+
 export async function query() {
   return request('/api/users');
 }
@@ -8,7 +10,7 @@ export async function query() {
 // }
 
 export async function queryCurrent() {
-  return request('http://127.0.0.1:5000/currentUser');
+  return request(`${PYTHONAPI}/currentUser`);
 }
 
 

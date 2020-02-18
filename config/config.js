@@ -104,7 +104,7 @@ export default {
               name: 'welcome',
               icon: "smile",
               component: './Welcome',
-              authority: ['0'],
+              authority: ['0', '1'],
               // hideInMenu: true,
             },
             {

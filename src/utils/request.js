@@ -70,6 +70,11 @@ request.interceptors.response.use(async (response) => {
     });
     router.push('/user/login')
   }
+  if (data.status == '429') {
+    notification.error({
+      message: '访问太频繁',
+    });
+  }
   return response;
 })
 
