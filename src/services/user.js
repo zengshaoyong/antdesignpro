@@ -1,16 +1,16 @@
 import request from '@/utils/request';
 
-let PYTHONAPI = window.requestURL || '';
 
 export async function query() {
   return request('/api/users');
 }
+
 // export async function queryCurrent() {
 //   return request('/api/currentUser');
 // }
 
 export async function queryCurrent() {
-  return request(`${PYTHONAPI}/currentUser`);
+  return request(`${window.requestURL}/currentUser`);
 }
 
 

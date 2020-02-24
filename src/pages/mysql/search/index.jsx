@@ -42,7 +42,7 @@ class Mysql extends React.Component {
   SelectInstanceChange = (value) => {
     // console.log(`selected ${value}`);
     this.setState({
-      instance: value
+      instance: value,
     }, () => {
       this.getdatabases()
       this.setState({
@@ -197,6 +197,12 @@ class Mysql extends React.Component {
               columns: clumn,
               export: false,
             })
+          })
+        }
+        if (data.length == 0) {
+          this.setState({
+            data: [],
+            columns: [],
           })
         }
         dispatch({
