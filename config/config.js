@@ -104,7 +104,7 @@ export default {
               name: 'welcome',
               icon: "smile",
               component: './Welcome',
-              authority: ['0', '1'],
+              // authority: ['0', '1'],
               // hideInMenu: true,
             },
             {
@@ -125,13 +125,27 @@ export default {
               name: 'Mysql',
               path: '/mysql',
               icon: "database",
-              authority: ['1'],
+              authority: ['1','10'],
               "routes": [
                 {
                   component: './mysql/search',
                   path: "/mysql/search",
                   name: "执行",
-                  authority: ['1'],
+                  authority: ['1','10'],
+                },
+              ]
+            },
+            {
+              name: '审计',
+              path: '/audit',
+              icon: "audit",
+              authority: ['10'],
+              "routes": [
+                {
+                  component: './audit/mysql',
+                  path: "/audit/mysql",
+                  name: "Mysql",
+                  authority: ['10'],
                 },
               ]
             },
