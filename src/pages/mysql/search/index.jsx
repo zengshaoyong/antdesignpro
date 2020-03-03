@@ -27,7 +27,7 @@ class Mysql extends React.Component {
     export: true,
     his_column: [],
     his_data: [],
-    table_column: [{'title': 'tables', 'dataIndex': 'Tables_in_cmdb'}],
+    table_column: [{'title': 'tables'}],
     table_data: [],
   };
 
@@ -55,6 +55,7 @@ class Mysql extends React.Component {
       this.getdatabases()
       this.setState({
         choose: false,
+        table_data: [],
       })
     })
   }
@@ -178,14 +179,21 @@ class Mysql extends React.Component {
     })
       .then(() => {
         const {data} = this.props.mysql;
-        // console.log(data)
+        console.log('Tables_in_cmdb', data)
         if (data.length > 0) {
           // console.log(data[0].Database)
-          let clumn = [{'title': 'tables', 'dataIndex': 'Tables_in_cmdb'}]
+          let keys = Object.keys(data[0])
+          console.log('keys', keys)
+          let clumn = []
+          keys.forEach((item) => {
+            if (item != 'key') {
+              clumn.push({'title': item, 'dataIndex': item})
+            }
+          })
 
           this.setState({
             table_data: data,
-            // table_column: clumn,
+            table_column: clumn,
           })
         }
       });
