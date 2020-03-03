@@ -1,9 +1,10 @@
 import React from 'react';
-import {Button, notification, Card, Input, Table, Select} from 'antd';
+import {Button, notification, Card, Input, Table, Select, Row, Col} from 'antd';
 import {connect} from 'dva';
 import {message, Tooltip} from "antd";
 import ExportJsonExcel from "js-export-excel";
 import styles from './index.less';
+import moment from "moment";
 
 const {Option} = Select;
 const {TextArea} = Input;
@@ -24,11 +25,16 @@ class Mysql extends React.Component {
     instance: '',
     choose: true,
     export: true,
+    his_column: [],
+    his_data: [],
+    table_column: [{'title': 'tables', 'dataIndex': 'Tables_in_cmdb'}],
+    table_data: [],
   };
 
 
   UNSAFE_componentWillMount() {
     this.getInstances()
+    this.getHis()
   }
 
 
@@ -36,6 +42,8 @@ class Mysql extends React.Component {
     // console.log(`selected ${value}`);
     this.setState({
       database: value
+    }, () => {
+      this.gettables()
     })
   }
 
@@ -150,7 +158,34 @@ class Mysql extends React.Component {
           // console.log(data[0].Database)
           this.setState({
             databases: data,
-            database: data[0].Database,
+            database: [],
+          })
+        }
+      });
+  };
+
+  gettables = () => {
+    const {dispatch} = this.props;
+    let arr_sql = {}
+    arr_sql['sqls'] = ['show tables']
+    dispatch({
+      type: 'mysql/fetchMysql',
+      payload: {
+        sqls: JSON.stringify(arr_sql),
+        instance: this.state.instance,
+        database: this.state.database,
+      },
+    })
+      .then(() => {
+        const {data} = this.props.mysql;
+        // console.log(data)
+        if (data.length > 0) {
+          // console.log(data[0].Database)
+          let clumn = [{'title': 'tables', 'dataIndex': 'Tables_in_cmdb'}]
+
+          this.setState({
+            table_data: data,
+            // table_column: clumn,
           })
         }
       });
@@ -207,11 +242,50 @@ class Mysql extends React.Component {
             columns: [],
           })
         }
+        this.getHis()
+        this.gettables()
         dispatch({
           type: 'mysql/resetData'
         })
       });
   };
+
+
+  getHis = () => {
+
+    this.props.dispatch({
+      type: 'audit/fetchAudit',
+      payload: {
+        username: 'current_user',
+        st_time: '',
+        end_time: '',
+      }
+    }).then(() => {
+
+      const {data} = this.props.audit
+      // console.log('history', data)
+
+      if (data.length == 0) {
+        this.setState({
+          his_data: [],
+          his_column: [],
+        })
+        return
+      }
+
+      let clumn = [{'title': '历史记录', 'dataIndex': 'sql'}]
+
+      this.setState({
+        his_data: data,
+        his_column: clumn,
+      })
+
+
+    }).catch((error) => {
+
+    })
+  }
+
 
   render() {
 
@@ -239,7 +313,7 @@ class Mysql extends React.Component {
           </Select>
 
           <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectDatabaseChange} placeholder='请选择数据库'
-                  loading={loading} disabled={this.state.choose} value={this.state.database}>
+                  loading={loading} disabled={this.state.choose} value={this.state.database} showSearch>
             {this.state.databases ?
               this.state.databases.map((item, key) => {
                 return <Option value={item.Database} key={key}>{item.Database}</Option>
@@ -251,6 +325,24 @@ class Mysql extends React.Component {
           </Select>
         </div>
 
+        <Row gutter={[8, 8]}>
+
+          <Col span={4}>
+            <div>
+              <Table style={{marginBottom: 20}} columns={this.state.table_column} dataSource={this.state.table_data}
+                     loading={loading} size='small'
+                     scroll={{y: 190}} pagination={false}/>
+            </div>
+          </Col>
+
+          <Col span={20}>
+            <div>
+              <Table style={{marginBottom: 20}} columns={this.state.his_column} dataSource={this.state.his_data}
+                     loading={loading} size='small'
+                     scroll={{y: 190}} pagination={false}/>
+            </div>
+          </Col>
+        </Row>
         <div><TextArea
           placeholder="请输入SQL语句"
           onChange={this.InputChange}
@@ -288,8 +380,9 @@ class Mysql extends React.Component {
 }
 
 
-export default connect(({mysql, loading}) => ({
+export default connect(({audit, mysql, loading}) => ({
   mysql,
-  loading: loading.models.mysql
+  audit,
+  loading: loading.models.mysql,
 }))(Mysql);
 
