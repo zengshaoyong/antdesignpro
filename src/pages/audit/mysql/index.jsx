@@ -67,30 +67,26 @@ class Audit extends React.Component {
       const {data} = this.props.audit
       // console.log('data', data)
 
-      if (data.length == 0) {
-        this.setState({
-          auditData: [],
-        })
-        return
-      }
 
-      let keys = Object.keys(data[0])
-      let clumn = []
-      keys.forEach((item) => {
-        if (item != 'key') {
-          if (item != 'sql') {
-            clumn.push({'title': item, 'dataIndex': item, 'width': 180})
-          } else {
-            clumn.push({'title': item, 'dataIndex': item})
+      if (data.length > 0) {
+
+        let keys = Object.keys(data[0])
+        let clumn = []
+        keys.forEach((item) => {
+          if (item != 'key') {
+            if (item != 'sql') {
+              clumn.push({'title': item, 'dataIndex': item, 'width': 180})
+            } else {
+              clumn.push({'title': item, 'dataIndex': item})
+            }
           }
-        }
-      })
+        })
 
-      this.setState({
-        auditData: data,
-        columns: clumn,
-      })
-
+        this.setState({
+          auditData: data,
+          columns: clumn,
+        })
+      }
 
     }).catch((error) => {
 

@@ -265,22 +265,15 @@ class Mysql extends React.Component {
       const {data} = this.props.audit
       // console.log('history', data)
 
-      if (data.length == 0) {
-        this.setState({
-          his_data: [],
-          his_column: [],
-        })
-        return
-      }
-
       let clumn = [{'title': '历史记录', 'dataIndex': 'sql'}]
 
-      this.setState({
-        his_data: data,
-        his_column: clumn,
-      })
+      if (data.length > 0) {
 
-
+        this.setState({
+          his_data: data,
+          his_column: clumn,
+        })
+      }
     }).catch((error) => {
 
     })
