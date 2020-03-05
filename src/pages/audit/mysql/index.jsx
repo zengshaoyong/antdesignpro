@@ -28,7 +28,11 @@ class Audit extends React.Component {
 
   };
 
-  UNSAFE_componentWillMount() {
+  // UNSAFE_componentWillMount() {
+  //   this.getData()
+  // }
+
+  componentDidMount() {
     this.getData()
   }
 
