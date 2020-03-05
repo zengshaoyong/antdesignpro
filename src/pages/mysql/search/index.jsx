@@ -32,10 +32,16 @@ class Mysql extends React.Component {
   };
 
 
-  UNSAFE_componentWillMount() {
+  // UNSAFE_componentWillMount() {
+  //   this.getInstances()
+  //   this.getHis()
+  // }
+
+  componentDidMount() {
     this.getInstances()
     this.getHis()
   }
+
 
 
   SelectDatabaseChange = (value) => {
@@ -179,11 +185,11 @@ class Mysql extends React.Component {
     })
       .then(() => {
         const {data} = this.props.mysql;
-        console.log('Tables_in_cmdb', data)
+        // console.log('Tables_in_cmdb', data)
         if (data.length > 0) {
           // console.log(data[0].Database)
           let keys = Object.keys(data[0])
-          console.log('keys', keys)
+          // console.log('keys', keys)
           let clumn = []
           keys.forEach((item) => {
             if (item != 'key') {

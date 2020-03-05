@@ -14,7 +14,7 @@ export async function getFakeCaptcha(mobile) {
 }
 
 export async function realLogin(params) {
-  console.log(config)
+  // console.log(config)
   return request(`${window.requestURL}/login`, {
     method: 'POST',
     data: params,
