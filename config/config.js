@@ -125,13 +125,27 @@ export default {
               name: 'Mysql',
               path: '/mysql',
               icon: "database",
-              authority: ['1','10'],
+              authority: ['1', '2', '10'],
               "routes": [
                 {
                   component: './mysql/search',
                   path: "/mysql/search",
                   name: "执行",
-                  authority: ['1','10'],
+                  authority: ['1', '2', '10'],
+                },
+              ]
+            },
+            {
+              name: 'Redis',
+              path: '/redis',
+              icon: "database",
+              authority: ['2', '10'],
+              "routes": [
+                {
+                  component: './redis/execute',
+                  path: "/redis/execute",
+                  name: "执行",
+                  authority: ['2', '10'],
                 },
               ]
             },
