@@ -71,17 +71,18 @@ class Redis extends React.Component {
     })
       .then(() => {
         const {data} = this.props.redis;
-        console.log('data', data)
+        // console.log('data', data)
         if (data.length > 0) {
           this.setState({
             data: data,
           }, () => {
             let keys = Object.keys(data[0])
-            console.log('keys', keys)
+            // console.log('keys', keys)
             let clumn = []
             keys.forEach((item) => {
-              clumn.push({'title': item, 'dataIndex': item})
-
+              if (item != 'key') {
+                clumn.push({'title': item, 'dataIndex': item})
+              }
             })
             this.setState({
               columns: clumn,
