@@ -192,7 +192,7 @@ class Redis extends React.Component {
 
         <div>
           {
-            this.state.columns ?
+            this.state.columns.length > 0 ?
               <div><Table columns={this.state.columns} dataSource={this.state.data} loading={loading} size='small'
                           scroll={{y: 580}} pagination={false}/></div>
               :
