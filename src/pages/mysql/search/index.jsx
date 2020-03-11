@@ -25,7 +25,7 @@ class Mysql extends React.Component {
     instance: '',
     choose: true,
     export: true,
-    his_column: [],
+    his_column: [{'title': '历史记录', 'dataIndex': 'sql'}],
     his_data: [],
     table_column: [{'title': 'tables'}],
     table_data: [],
@@ -279,13 +279,11 @@ class Mysql extends React.Component {
       const {data} = this.props.audit
       // console.log('history', data)
 
-      let clumn = [{'title': '历史记录', 'dataIndex': 'sql'}]
 
       if (data.length > 0) {
 
         this.setState({
           his_data: data,
-          his_column: clumn,
         })
       }
     }).catch((error) => {
