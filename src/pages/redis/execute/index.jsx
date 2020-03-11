@@ -1,7 +1,6 @@
 import React from 'react';
-import {Button, notification, Card, Input, Table, Select, Row, Col} from 'antd';
+import {Button, notification, Card, Input, Table, Select, Row, Col, message} from 'antd';
 import {connect} from 'dva';
-import {message, Tooltip} from "antd";
 import ExportJsonExcel from "js-export-excel";
 import styles from './index.less';
 import moment from "moment";
@@ -49,6 +48,10 @@ class Redis extends React.Component {
 
 
   getdata = () => {
+    if (this.state.key.trim() == '') {
+      message.error('请输入key')
+      return
+    }
     this.setState({
       choose: true,
     })
