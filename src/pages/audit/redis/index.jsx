@@ -60,7 +60,7 @@ class Audit extends React.Component {
     // console.log(defalutTime.et)
 
     this.props.dispatch({
-      type: 'audit/fetchAudit',
+      type: 'audit/fetchAuditRedis',
       payload: {
         username: this.state.user,
         st_time: starttime || defalutTime.st,
@@ -78,11 +78,7 @@ class Audit extends React.Component {
         let clumn = []
         keys.forEach((item) => {
           if (item != 'key') {
-            if (item != 'sql') {
-              clumn.push({'title': item, 'dataIndex': item, 'width': 180})
-            } else {
-              clumn.push({'title': item, 'dataIndex': item})
-            }
+            clumn.push({'title': item, 'dataIndex': item})
           }
         })
 

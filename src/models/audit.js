@@ -1,4 +1,4 @@
-import {Audit} from "@/services/audit";
+import {Audit, Audit_redis} from "@/services/audit";
 
 
 const AuditModel = {
@@ -20,6 +20,20 @@ const AuditModel = {
         });
       }
     },
+
+    * fetchAuditRedis({payload}, {call, put}) {
+      const response = yield call(Audit_redis, payload);
+      console.log('response', response)
+      if (response.status == '200') {
+        yield put({
+          type: 'save',
+          payload: {
+            data: response.data
+          },
+        });
+      }
+    },
+
   },
 
   reducers: {

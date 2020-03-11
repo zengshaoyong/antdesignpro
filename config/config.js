@@ -161,6 +161,12 @@ export default {
                   name: "Mysql",
                   authority: ['10'],
                 },
+                {
+                  component: './audit/redis',
+                  path: "/audit/redis",
+                  name: "Redis",
+                  authority: ['10'],
+                },
               ]
             },
             {
