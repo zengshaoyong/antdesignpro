@@ -63,18 +63,14 @@ const request = extend({
 
 request.interceptors.response.use(async (response) => {
   const data = await response.clone().json();
-  // console.log(data)
+  // console.log('data', data)
   if (data.status == '401') {
     notification.error({
       message: '认证已过期，请重新登陆',
     });
     router.push('/user/login')
   }
-  if (data.status == '429') {
-    notification.error({
-      message: '访问太频繁',
-    });
-  }
+
   return response;
 })
 

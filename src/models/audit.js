@@ -18,8 +18,6 @@ const AuditModel = {
             data: response.data
           },
         });
-      } else {
-        message.error(response.data, 10)
       }
     },
   },
