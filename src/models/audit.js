@@ -23,7 +23,7 @@ const AuditModel = {
 
     * fetchAuditRedis({payload}, {call, put}) {
       const response = yield call(Audit_redis, payload);
-      console.log('response', response)
+      // console.log('response', response)
       if (response.status == '200') {
         yield put({
           type: 'save',

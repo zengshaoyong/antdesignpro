@@ -13,8 +13,8 @@ const {Option} = Select;
 class Redis extends React.Component {
   state = {
     instances: [],
-    data: [],
-    columns: [],
+    data: '',
+    columns: '',
     choose: false,
     key: '',
     type: '',
@@ -92,7 +92,7 @@ class Redis extends React.Component {
             })
           })
         }
-        if (data.length == 0) {
+        if (data.length === 0) {
           this.setState({
             data: [],
             columns: [],
@@ -192,7 +192,7 @@ class Redis extends React.Component {
 
         <div>
           {
-            this.state.columns.length > 0 ?
+            this.state.columns ?
               <div><Table columns={this.state.columns} dataSource={this.state.data} loading={loading} size='small'
                           scroll={{y: 580}} pagination={false}/></div>
               :
