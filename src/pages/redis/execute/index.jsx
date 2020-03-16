@@ -48,8 +48,12 @@ class Redis extends React.Component {
 
 
   getdata = () => {
-    if (this.state.key.trim() == '') {
+    if (this.state.key.trim() === '') {
       message.error('请输入key')
+      return
+    }
+    if (this.state.instance === '') {
+      message.error('请选择实例')
       return
     }
     this.setState({
