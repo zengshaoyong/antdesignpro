@@ -10,7 +10,7 @@ import moment from "moment";
 const {Option} = Select;
 const {TextArea} = Input;
 
-const text = <span><p>每句结尾必须带有英文符";"分号，否则连续的多条语句将不被识别！</p><p>导出Excel功能按钮将在查询结束后生效</p><p>此处限制执行频率为每两秒一次</p>
+const text = <span><p>如果存在鼠标滑选，系统会优先执行鼠标滑选中的内容，否则正常执行输入框的内容</p><p>每句结尾必须带有英文符";"分号，否则连续的多条语句将不被识别！</p><p>导出Excel功能按钮将在查询结束后生效</p><p>此处限制执行频率为每两秒一次</p>
 </span>;
 
 
@@ -19,6 +19,7 @@ class Mysql extends React.Component {
     data: '',
     columns: '',
     sql: '',
+    select_sql: '',
     sqls: {},
     databases: '',
     input: '',
@@ -37,6 +38,53 @@ class Mysql extends React.Component {
   componentDidMount() {
     this.getInstances()
     this.getHis()
+    document.addEventListener("dblclick", this.doubleClick, true);
+    document.addEventListener("mouseup", this.mouseUp, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("dblclick", this.doubleClick, true);
+    document.removeEventListener("mouseup", this.mouseUp, true);
+  }
+
+  onKeyDown2 = () => {
+    if (!this.state.choose) {
+      this.formatData()
+    }
+  }
+
+
+  // 获取鼠标双击选中
+  doubleClick = () => {
+    var text = "";
+    if (window.getSelection) {
+      text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+      text = document.selection.createRange().text;
+    }
+    // if ("" != text) {
+    // console.log(text);
+    this.setState({
+      select_sql: text,
+    })
+    // }
+
+  }
+
+// 释放鼠标处理函数
+  mouseUp = () => {
+    var text = "";
+    if (window.getSelection) {
+      text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+      text = document.selection.createRange().text;
+    }
+    // if ("" != text) {
+    // console.log(text);
+    this.setState({
+      select_sql: text,
+    })
+    // }
   }
 
 
@@ -104,8 +152,14 @@ class Mysql extends React.Component {
 
 
   formatData = () => {
+    let sql;
     let arr_sql = {}
-    let sql = this.state.input
+    if (this.state.select_sql != "") {
+      sql = this.state.select_sql;
+    } else {
+      sql = this.state.input;
+    }
+
     if (sql.trim() != '') {
       // console.log(sql.split(/[\n]/))
       // arr_sql['sqls'] = sql.split(/[\n]/)
@@ -300,7 +354,17 @@ class Mysql extends React.Component {
 
     return (
       <div>
-
+        <div>
+          <Hotkeys
+            keyName="ctrl+enter"
+            onKeyDown={this.onKeyDown2}
+            // onKeyUp={this.onKeyUp}
+          >
+            {/*<div style={{padding: "50px"}}>*/}
+            {/*  {this.state.output}*/}
+            {/*</div>*/}
+          </Hotkeys>
+        </div>
         <div id='div'>
           <Tooltip title={text}>
             <span>注意事项,请先把鼠标移到此处</span>
