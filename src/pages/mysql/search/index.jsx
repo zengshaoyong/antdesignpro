@@ -56,7 +56,7 @@ class Mysql extends React.Component {
 
   // 获取鼠标双击选中
   doubleClick = () => {
-    var text = "";
+    let text = "";
     if (window.getSelection) {
       text = window.getSelection().toString();
     } else if (document.selection && document.selection.type != "Control") {
@@ -73,7 +73,7 @@ class Mysql extends React.Component {
 
 // 释放鼠标处理函数
   mouseUp = () => {
-    var text = "";
+    let text = "";
     if (window.getSelection) {
       text = window.getSelection().toString();
     } else if (document.selection && document.selection.type != "Control") {
