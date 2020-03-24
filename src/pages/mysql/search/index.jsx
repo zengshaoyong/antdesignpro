@@ -3,6 +3,7 @@ import {Button, notification, Card, Input, Table, Select, Row, Col} from 'antd';
 import {connect} from 'dva';
 import {message, Tooltip} from "antd";
 import ExportJsonExcel from "js-export-excel";
+import Hotkeys from 'react-hot-keys';
 import styles from './index.less';
 import moment from "moment";
 
@@ -11,6 +12,7 @@ const {TextArea} = Input;
 
 const text = <span><p>每句结尾必须带有英文符";"分号，否则连续的多条语句将不被识别！</p><p>导出Excel功能按钮将在查询结束后生效</p><p>此处限制执行频率为每两秒一次</p>
 </span>;
+
 
 class Mysql extends React.Component {
   state = {
@@ -32,17 +34,17 @@ class Mysql extends React.Component {
   };
 
 
-  // UNSAFE_componentWillMount() {
-  //   this.getInstances()
-  //   this.getHis()
-  // }
-
   componentDidMount() {
     this.getInstances()
     this.getHis()
   }
 
 
+  onKeyDown = e => {
+    if (13 == e.keyCode && e.ctrlKey) {
+      this.formatData()
+    }
+  }
 
   SelectDatabaseChange = (value) => {
     // console.log(`selected ${value}`);
@@ -348,21 +350,23 @@ class Mysql extends React.Component {
             </div>
           </Col>
         </Row>
-        <div><TextArea
-          placeholder="请输入SQL语句"
-          onChange={this.InputChange}
-          value={this.state.input}
-          disabled={this.state.choose}
+        <div><TextArea onKeyDown={this.onKeyDown}
+                       placeholder="请输入SQL语句"
+                       onChange={this.InputChange}
+                       value={this.state.input}
+                       disabled={this.state.choose}
         />
         </div>
 
         <div>
-          <Button
-            type="primary"
-            onClick={() => this.formatData()}
-            loading={loading}
-            disabled={this.state.choose}
-          >执行</Button>
+          <Tooltip title="Ctrl Enter">
+            <Button
+              type="primary"
+              onClick={() => this.formatData()}
+              loading={loading}
+              disabled={this.state.choose}
+            >执行</Button>
+          </Tooltip>
           <Button
             onClick={() => this.reset()}
             disabled={this.state.choose}
