@@ -25,26 +25,26 @@ const Model = {
 
       // console.log('payload', response)
       if (response.status === 'ok') {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let {redirect} = params;
+        // const urlParams = new URL(window.location.href);
+        // const params = getPageQuery();
+        // let {redirect} = params;
+        //
+        // if (redirect) {
+        //   const redirectUrlParams = new URL(redirect);
+        //
+        //   if (redirectUrlParams.origin === urlParams.origin) {
+        //     redirect = redirect.substr(urlParams.origin.length);
+        //
+        //     if (redirect.match(/^\/.*#/)) {
+        //       redirect = redirect.substr(redirect.indexOf('#') + 1);
+        //     }
+        //   } else {
+        //     window.location.href = '/';
+        //     return;
+        //   }
+        // }
 
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = '/';
-            return;
-          }
-        }
-
-        router.replace(redirect || '/');
+        router.replace('/');
       }
       if (response.status != 'ok') {
         message.error(response.message, 5)
