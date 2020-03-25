@@ -24,7 +24,12 @@ class Redis extends React.Component {
 
   componentDidMount() {
     this.getInstances()
+    document.addEventListener("dblclick", this.doubleClick, true);
     // this.getdata()
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("dblclick", this.doubleClick, true);
   }
 
   getInstances = () => {
@@ -44,6 +49,23 @@ class Redis extends React.Component {
           })
         }
       });
+  }
+
+
+  doubleClick = () => {
+    let text = "";
+    if (window.getSelection) {
+      text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+      text = document.selection.createRange().text;
+    }
+    // if ("" != text) {
+    // console.log(text);
+    this.setState({
+      key: text,
+    })
+    // }
+
   }
 
 
@@ -170,7 +192,7 @@ class Redis extends React.Component {
           }
         </Select>
 
-        <div><Input placeholder="寻找key请通过Scan进行匹配（支持*号），查询key内容请输入完整的key" allowClear onChange={this.InputChange}/></div>
+        <div><Input placeholder="寻找key请通过Scan进行匹配（支持*号），查询key内容请输入完整的key" allowClear onChange={this.InputChange} value={this.state.key}/></div>
 
 
         <div>
