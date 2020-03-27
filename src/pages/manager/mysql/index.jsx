@@ -43,7 +43,7 @@ class manage_mysql extends React.Component {
             render: (text, record) => (
               <span>
                 <Button type="link" size='small'>modify</Button>
-                <Button type="link" size='small'>delete</Button>
+                <Button type="link" size='small' onClick={() => this.delete(record)}>delete</Button>
               </span>
             ),
           },)
@@ -54,14 +54,30 @@ class manage_mysql extends React.Component {
       });
   }
 
+  delete = (record) => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'manager/fetchManagerMysql',
+      payload: {
+        type: 'del',
+        instance: record.instance,
+      },
+    })
+      .then(() => {
+        this.query()
+      })
+  }
+
 
   render() {
     const {loading} = this.props;
 
     return (
       <div>
-        <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small" pagination={false}
-               loading={loading}/>
+        <div>
+          <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small" pagination={false}
+                 loading={loading}/>
+        </div>
       </div>
     )
 
