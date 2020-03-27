@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'dva';
 
 class manage_redis extends React.Component {
-
+  state = {}
 
   render() {
     return (
@@ -17,5 +17,5 @@ class manage_redis extends React.Component {
 
 export default connect(({manager, loading}) => ({
   manager,
-  loading: loading.models.audit
+  loading: loading.models.manager
 }))(manage_redis);

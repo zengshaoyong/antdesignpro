@@ -45,4 +45,4 @@ const ManagerModel = {
     },
   },
 }
-export default AuditModel;
+export default ManagerModel;

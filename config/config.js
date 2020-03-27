@@ -108,16 +108,36 @@ export default {
               // hideInMenu: true,
             },
             {
+              name: '管理',
+              path: '/manager',
+              icon: "setting",
+              authority: ['100'],
+              "routes": [
+                {
+                  component: './manager/mysql',
+                  path: "/manager/mysql",
+                  name: "mysql",
+                  authority: ['100'],
+                },
+                {
+                  component: './manager/redis',
+                  path: "/manager/redis",
+                  name: "redis",
+                  authority: ['100'],
+                },
+              ]
+            },
+            {
               name: 'Kubernetes',
               path: '/kubernetes',
               icon: "dashboard",
-              authority: ['2'],
+              authority: ['2', '100'],
               "routes": [
                 {
                   component: './kubernetes/dashboard',
                   path: "/kubernetes/dashboard",
                   name: "dashboard",
-                  authority: ['2'],
+                  authority: ['2', '100'],
                 },
               ]
             },
@@ -125,13 +145,13 @@ export default {
               name: 'Mysql',
               path: '/mysql',
               icon: "database",
-              authority: ['1', '2', '10'],
+              authority: ['1', '2', '10', '100'],
               "routes": [
                 {
                   component: './mysql/search',
                   path: "/mysql/search",
                   name: "执行",
-                  authority: ['1', '2', '10'],
+                  authority: ['1', '2', '10', '100'],
                 },
               ]
             },
@@ -139,13 +159,13 @@ export default {
               name: 'Redis',
               path: '/redis',
               icon: "database",
-              authority: ['2', '10'],
+              authority: ['2', '10', '100'],
               "routes": [
                 {
                   component: './redis/execute',
                   path: "/redis/execute",
                   name: "执行",
-                  authority: ['2', '10'],
+                  authority: ['2', '10', '100'],
                 },
               ]
             },
@@ -153,19 +173,19 @@ export default {
               name: '审计',
               path: '/audit',
               icon: "audit",
-              authority: ['10'],
+              authority: ['10', '100'],
               "routes": [
                 {
                   component: './audit/mysql',
                   path: "/audit/mysql",
                   name: "Mysql",
-                  authority: ['10'],
+                  authority: ['10', '100'],
                 },
                 {
                   component: './audit/redis',
                   path: "/audit/redis",
                   name: "Redis",
-                  authority: ['10'],
+                  authority: ['10', '100'],
                 },
               ]
             },
