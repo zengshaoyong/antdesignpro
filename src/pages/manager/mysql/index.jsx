@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'dva';
-import {Table, Button, Modal, Input} from 'antd';
+import {Table, Button, Modal, Input, Row} from 'antd';
 import styles from './index.less';
 
 
@@ -78,6 +78,26 @@ class manage_mysql extends React.Component {
       })
   }
 
+  create = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'manager/fetchManagerMysql',
+      payload: {
+        type: 'add',
+        instance: this.state.instance,
+        ip: this.state.ip,
+        port: this.state.port,
+        read_user: this.state.read_user,
+        read_password: this.state.read_password,
+        execute_user: this.state.execute_user,
+        execute_password: this.state.execute_password,
+      },
+    })
+      .then(() => {
+        this.query()
+      })
+  }
+
   modify = () => {
     const {dispatch} = this.props;
     dispatch({
@@ -111,6 +131,35 @@ class manage_mysql extends React.Component {
       mod_visible: true,
     })
   }
+
+  add_showModal = () => {
+    this.setState({
+      instance: '',
+      ip: '',
+      port: '',
+      read_user: '',
+      read_password: '',
+      execute_user: '',
+      execute_password: '',
+      add_visible: true,
+    })
+  }
+
+
+  add_handleOk = e => {
+    // console.log(e);
+    this.create()
+    this.setState({
+      add_visible: false,
+    });
+  };
+
+  add_handleCancel = e => {
+    // console.log(e);
+    this.setState({
+      add_visible: false,
+    });
+  };
 
   mod_handleOk = e => {
     // console.log(e);
@@ -163,12 +212,24 @@ class manage_mysql extends React.Component {
     })
   }
 
+  instanceChange = e => {
+    this.setState({
+      instance: e.target.value
+    })
+  }
+
 
   render() {
     const {loading} = this.props;
 
     return (
       <div>
+        <div>
+          <Row type="flex" justify="end">
+            <Button size="small" onClick={() => this.add_showModal()}
+                    type="primary">创建</Button>
+          </Row>
+        </div>
         <div>
           <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small" pagination={false}
                  loading={loading}/>
@@ -182,7 +243,7 @@ class manage_mysql extends React.Component {
           >
             <p>实例：</p>
             <Input className={styles.input} value={this.state.instance} disabled/>
-            <Input type='ip' className={styles.input} value={this.state.ip} onChange={this.ipChange}/>
+            <Input className={styles.input} value={this.state.ip} onChange={this.ipChange}/>
             <Input className={styles.input} value={this.state.port} onChange={this.portChange}/>
             <p>只读用户密码：</p>
             <Input className={styles.input} value={this.state.read_user} onChange={this.read_userChange}/>
@@ -190,6 +251,28 @@ class manage_mysql extends React.Component {
             <p>读写用户密码：</p>
             <Input className={styles.input} value={this.state.execute_user} onChange={this.execute_userChange}/>
             <Input className={styles.input} value={this.state.execute_password} onChange={this.execute_passwordChange}/>
+          </Modal>
+        </div>
+
+        <div>
+          <Modal
+            title="add"
+            visible={this.state.add_visible}
+            onOk={this.add_handleOk}
+            onCancel={this.add_handleCancel}
+          >
+            <Input className={styles.input} value={this.state.instance} onChange={this.instanceChange}
+                   placeholder="请输入实例名"/>
+            <Input className={styles.input} value={this.state.ip} onChange={this.ipChange} placeholder="请输入IP地址"/>
+            <Input className={styles.input} value={this.state.port} onChange={this.portChange} placeholder="请输入端口号"/>
+            <Input className={styles.input} value={this.state.read_user} onChange={this.read_userChange}
+                   placeholder="请输入只读用户名"/>
+            <Input className={styles.input} value={this.state.read_password} onChange={this.read_passwordChange}
+                   placeholder="请输入只读用户密码"/>
+            <Input className={styles.input} value={this.state.execute_user} onChange={this.execute_userChange}
+                   placeholder="请输入读写用户名"/>
+            <Input className={styles.input} value={this.state.execute_password} onChange={this.execute_passwordChange}
+                   placeholder="请输入读写用户密码"/>
           </Modal>
         </div>
       </div>
