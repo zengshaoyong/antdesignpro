@@ -84,13 +84,13 @@ class manage_mysql extends React.Component {
       type: 'manager/fetchManagerMysql',
       payload: {
         type: 'add',
-        instance: this.state.instance,
-        ip: this.state.ip,
-        port: this.state.port,
-        read_user: this.state.read_user,
-        read_password: this.state.read_password,
-        execute_user: this.state.execute_user,
-        execute_password: this.state.execute_password,
+        instance: this.state.instance.trim(),
+        ip: this.state.ip.trim(),
+        port: this.state.port.trim(),
+        read_user: this.state.read_user.trim(),
+        read_password: this.state.read_password.trim(),
+        execute_user: this.state.execute_user.trim(),
+        execute_password: this.state.execute_password.trim(),
       },
     })
       .then(() => {
@@ -104,13 +104,13 @@ class manage_mysql extends React.Component {
       type: 'manager/fetchManagerMysql',
       payload: {
         type: 'modify',
-        instance: this.state.instance,
-        ip: this.state.ip,
-        port: this.state.port,
-        read_user: this.state.read_user,
-        read_password: this.state.read_password,
-        execute_user: this.state.execute_user,
-        execute_password: this.state.execute_password,
+        instance: this.state.instance.trim(),
+        ip: this.state.ip.trim(),
+        port: this.state.port.trim(),
+        read_user: this.state.read_user.trim(),
+        read_password: this.state.read_password.trim(),
+        execute_user: this.state.execute_user.trim(),
+        execute_password: this.state.execute_password.trim(),
       },
     })
       .then(() => {
@@ -148,7 +148,9 @@ class manage_mysql extends React.Component {
 
   add_handleOk = e => {
     // console.log(e);
-    this.create()
+    if (this.state.instance.trim() != '' && this.state.ip.trim() != '' && this.state.port.trim() != '' && this.state.read_user.trim() != '' && this.state.read_password.trim() != '' && this.state.execute_user.trim() != '' && this.state.execute_password.trim() != '') {
+      this.create()
+    }
     this.setState({
       add_visible: false,
     });
@@ -243,14 +245,18 @@ class manage_mysql extends React.Component {
           >
             <p>实例：</p>
             <Input className={styles.input} value={this.state.instance} disabled/>
-            <Input className={styles.input} value={this.state.ip} onChange={this.ipChange}/>
-            <Input className={styles.input} value={this.state.port} onChange={this.portChange}/>
+            <Input className={styles.input} value={this.state.ip} onChange={this.ipChange} placeholder="请输入IP地址"/>
+            <Input className={styles.input} value={this.state.port} onChange={this.portChange} placeholder="请输入端口号"/>
             <p>只读用户密码：</p>
-            <Input className={styles.input} value={this.state.read_user} onChange={this.read_userChange}/>
-            <Input className={styles.input} value={this.state.read_password} onChange={this.read_passwordChange}/>
+            <Input className={styles.input} value={this.state.read_user} onChange={this.read_userChange}
+                   placeholder="请输入只读用户名"/>
+            <Input className={styles.input} value={this.state.read_password} onChange={this.read_passwordChange}
+                   placeholder="请输入只读用户密码"/>
             <p>读写用户密码：</p>
-            <Input className={styles.input} value={this.state.execute_user} onChange={this.execute_userChange}/>
-            <Input className={styles.input} value={this.state.execute_password} onChange={this.execute_passwordChange}/>
+            <Input className={styles.input} value={this.state.execute_user} onChange={this.execute_userChange}
+                   placeholder="请输入读写用户名"/>
+            <Input className={styles.input} value={this.state.execute_password} onChange={this.execute_passwordChange}
+                   placeholder="请输入读写用户密码"/>
           </Modal>
         </div>
 
