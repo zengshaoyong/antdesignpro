@@ -1,4 +1,4 @@
-import {manager_mysql, manager_redis} from "@/services/manager";
+import {manager_mysql, manager_redis, manager_user} from "@/services/manager";
 
 
 const ManagerModel = {
@@ -23,6 +23,19 @@ const ManagerModel = {
 
     * fetchManagerRedis({payload}, {call, put}) {
       const response = yield call(manager_redis, payload);
+      // console.log('response', response)
+      if (response.status == '200') {
+        yield put({
+          type: 'save',
+          payload: {
+            data: response.data
+          },
+        });
+      }
+    },
+
+    * fetchManagerUser({payload}, {call, put}) {
+      const response = yield call(manager_user, payload);
       // console.log('response', response)
       if (response.status == '200') {
         yield put({

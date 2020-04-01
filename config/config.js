@@ -114,6 +114,12 @@ export default {
               authority: ['100'],
               "routes": [
                 {
+                  component: './manager/user',
+                  path: "/manager/user",
+                  name: "user",
+                  authority: ['100'],
+                },
+                {
                   component: './manager/mysql',
                   path: "/manager/mysql",
                   name: "mysql",

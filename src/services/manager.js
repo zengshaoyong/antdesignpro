@@ -11,3 +11,8 @@ export async function manager_redis(payload) {
 }
 
 
+export async function manager_user(payload) {
+  return request(`${window.requestURL}/manage_user?type=${payload.type}&username=${payload.username}&authority=${payload.authority}&namespace=${payload.namespace}&group=${payload.group}&execute_instances=${payload.execute_instances}&read_instances=${payload.read_instances}&redis=${payload.redis}`);
+}
+
+
