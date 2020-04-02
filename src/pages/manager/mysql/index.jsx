@@ -251,7 +251,7 @@ class manage_mysql extends React.Component {
           </Row>
         </div>
         <div>
-          <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small" pagination={false}
+          <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small"
                  loading={loading}/>
         </div>
         <div>

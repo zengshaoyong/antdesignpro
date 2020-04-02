@@ -186,7 +186,7 @@ class manage_user extends React.Component {
     return (
       <div>
         <div>
-          <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small" pagination={false}
+          <Table columns={this.state.clumn} dataSource={this.state.data} bordered size="small"
                  loading={loading}/>
         </div>
 
