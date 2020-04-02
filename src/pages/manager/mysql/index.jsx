@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {connect} from 'dva';
-import {Table, Button, Modal, Input, Row} from 'antd';
+import {Table, Button, Modal, Input, Row, Popconfirm} from 'antd';
 import styles from './index.less';
 
 
@@ -53,7 +53,15 @@ class manage_mysql extends React.Component {
             render: (text, record) => (
               <span>
                 <Button type="link" size='small' onClick={() => this.mod_showModal(record)}>modify</Button>
-                <Button type="link" size='small' onClick={() => this.delete(record)}>delete</Button>
+                <Popconfirm
+                  title="你确定？"
+                  onConfirm={() => this.confirm(record)}
+                  onCancel={this.cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                <Button type="link" size='small'>delete</Button>
+                </Popconfirm>
               </span>
             ),
           },)
@@ -218,6 +226,16 @@ class manage_mysql extends React.Component {
     this.setState({
       instance: e.target.value
     })
+  }
+
+  confirm = (record) => {
+    // console.log(e);
+    this.delete(record)
+  }
+
+  cancel = (e) => {
+    // console.log(e);
+    // message.error('Click on No');
   }
 
 

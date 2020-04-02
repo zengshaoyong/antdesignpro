@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Button, Table, Modal, Input, Row} from "antd";
+import {Button, Table, Modal, Input, Row, Popconfirm} from "antd";
 import styles from "@/pages/manager/mysql/index.less";
 
 class manage_redis extends React.Component {
@@ -51,7 +51,15 @@ class manage_redis extends React.Component {
             render: (text, record) => (
               <span>
                 <Button type="link" size='small' onClick={() => this.mod_showModal(record)}>modify</Button>
-                <Button type="link" size='small' onClick={() => this.delete(record)}>delete</Button>
+                <Popconfirm
+                  title="你确定？"
+                  onConfirm={() => this.confirm(record)}
+                  onCancel={this.cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                <Button type="link" size='small'>delete</Button>
+                </Popconfirm>
               </span>
             ),
           },)
@@ -186,6 +194,16 @@ class manage_redis extends React.Component {
     this.setState({
       password: e.target.value
     })
+  }
+
+  confirm = (record) => {
+    // console.log(e);
+    this.delete(record)
+  }
+
+  cancel = (e) => {
+    // console.log(e);
+    // message.error('Click on No');
   }
 
 
