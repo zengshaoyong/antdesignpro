@@ -269,12 +269,12 @@ class manage_mysql extends React.Component {
             <Input className={styles.input} value={this.state.read_user} onChange={this.read_userChange}
                    placeholder="请输入只读用户名"/>
             <Input className={styles.input} value={this.state.read_password} onChange={this.read_passwordChange}
-                   placeholder="请输入只读用户密码"/>
+                   placeholder="如须修改，请输入只读用户密码，否则留空"/>
             <p>读写用户密码：</p>
             <Input className={styles.input} value={this.state.execute_user} onChange={this.execute_userChange}
                    placeholder="请输入读写用户名"/>
             <Input className={styles.input} value={this.state.execute_password} onChange={this.execute_passwordChange}
-                   placeholder="请输入读写用户密码"/>
+                   placeholder="如须修改，请输入读写用户密码，否则留空"/>
           </Modal>
         </div>
 
