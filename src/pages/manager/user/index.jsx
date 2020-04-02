@@ -208,10 +208,10 @@ class manage_user extends React.Component {
             <p>group：</p>
             <Input className={styles.input} value={this.state.group} onChange={this.groupChange}
                    placeholder="请输入group"/>
-            <p>mysql只读实例：</p>
+            <p>mysql只读实例（多个请用英文符逗号 , 隔开）：</p>
             <Input className={styles.input} value={this.state.read_instances} onChange={this.read_instancesChange}
                    placeholder="请输入只读实例"/>
-            <p>mysql读写实例：</p>
+            <p>mysql读写实例（多个请用英文符逗号 , 隔开）：</p>
             <Input className={styles.input} value={this.state.execute_instances} onChange={this.execute_instancesChange}
                    placeholder="请输入读写实例"/>
             <p>redis实例：</p>
