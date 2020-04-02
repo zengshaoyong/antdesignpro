@@ -214,7 +214,7 @@ class manage_user extends React.Component {
             <p>mysql读写实例（多个请用英文符逗号 , 隔开）：</p>
             <Input className={styles.input} value={this.state.execute_instances} onChange={this.execute_instancesChange}
                    placeholder="请输入读写实例"/>
-            <p>redis实例：</p>
+            <p>redis实例（多个请用英文符逗号 , 隔开）：</p>
             <Input className={styles.input} value={this.state.redis} onChange={this.redisChange}
                    placeholder="请输入redis实例"/>
           </Modal>
