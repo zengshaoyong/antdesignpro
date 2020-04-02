@@ -133,9 +133,9 @@ class manage_mysql extends React.Component {
       ip: record.ip,
       port: record.port,
       read_user: record.read_user,
-      read_password: record.read_password,
+      read_password: '',
       execute_user: record.execute_user,
-      execute_password: record.execute_password,
+      execute_password: '',
       mod_visible: true,
     })
   }
