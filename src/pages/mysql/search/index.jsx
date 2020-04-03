@@ -122,6 +122,7 @@ class Mysql extends React.Component {
       this.getdatabases()
       this.setState({
         choose: false,
+        database: [],
         table_data: [],
         field_data: [],
         table: [],
@@ -242,7 +243,6 @@ class Mysql extends React.Component {
           // console.log(data[0].Database)
           this.setState({
             databases: data,
-            database: [],
           })
         }
       });
@@ -425,7 +425,8 @@ class Mysql extends React.Component {
             }
           </Select>
 
-          <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectDatabaseChange} placeholder='请选择数据库（可不选）'
+          <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectDatabaseChange}
+                  placeholder='请选择数据库（可不选）'
                   loading={loading} disabled={this.state.choose} value={this.state.database} showSearch>
             {this.state.databases ?
               this.state.databases.map((item, key) => {
