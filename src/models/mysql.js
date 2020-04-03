@@ -1,4 +1,4 @@
-import {Mysql, Instance} from "@/services/mysql";
+import {Mysql, Instance, Fields} from "@/services/mysql";
 import {message, notification} from "antd";
 
 const MysqlModel = {
@@ -7,6 +7,7 @@ const MysqlModel = {
     data: [],
     status: '',
     instance: '',
+    fields: '',
   },
 
   effects: {
@@ -18,6 +19,21 @@ const MysqlModel = {
           type: 'save',
           payload: {
             instance: response.data
+          },
+        });
+      } else {
+        message.error(response.data, 10)
+      }
+    },
+
+    * fetchFields({payload}, {call, put}) {
+      const response = yield call(Fields, payload);
+      // console.log('response', response)
+      if (response.status == '200') {
+        yield put({
+          type: 'save',
+          payload: {
+            fields: response.data
           },
         });
       } else {

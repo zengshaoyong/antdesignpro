@@ -28,15 +28,19 @@ class Mysql extends React.Component {
     sqls: {},
     databases: '',
     input: '',
-    database: '',
+    database: [],
     instances: '',
-    instance: '',
+    instance: [],
     choose: true,
     export: true,
     his_column: [{'title': '历史记录', 'dataIndex': 'sql'}],
     his_data: [],
     table_column: [{'title': 'tables'}],
     table_data: [],
+    field_column: [{'title': '表字段', 'dataIndex': 'field'}],
+    field_data: [],
+    tables: '',
+    table: [],
   };
 
 
@@ -102,7 +106,9 @@ class Mysql extends React.Component {
   SelectDatabaseChange = (value) => {
     // console.log(`selected ${value}`);
     this.setState({
-      database: value
+      database: value,
+      table: [],
+      field_data: [],
     }, () => {
       this.gettables()
     })
@@ -117,7 +123,17 @@ class Mysql extends React.Component {
       this.setState({
         choose: false,
         table_data: [],
+        field_data: [],
+        table: [],
       })
+    })
+  }
+
+  SelectTableChange = (value) => {
+    this.setState({
+      table: value,
+    }, () => {
+      this.getField()
     })
   }
 
@@ -246,7 +262,7 @@ class Mysql extends React.Component {
     })
       .then(() => {
         const {data} = this.props.mysql;
-        // console.log('Tables_in_cmdb', data)
+        // console.log(data)
         if (data.length > 0) {
           // console.log(data[0].Database)
           let keys = Object.keys(data[0])
@@ -261,10 +277,31 @@ class Mysql extends React.Component {
           this.setState({
             table_data: data,
             table_column: clumn,
+            tables: data,
           })
         }
       });
   };
+
+  getField = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'mysql/fetchFields',
+      payload: {
+        instance: this.state.instance,
+        database: this.state.database,
+        table: this.state.table,
+      },
+    }).then(() => {
+      const {fields} = this.props.mysql;
+      // console.log(fields)
+      if (fields.length > 0) {
+        this.setState({
+          field_data: fields,
+        })
+      }
+    })
+  }
 
 
   getdata = () => {
@@ -378,7 +415,7 @@ class Mysql extends React.Component {
 
         <div>
           <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectInstanceChange} placeholder='请选择实例'
-                  loading={loading}>
+                  loading={loading} value={this.state.instance}>
             {this.state.instances ?
               this.state.instances.map((item, key) => {
                 return <Option value={item} key={key}>{item}</Option>
@@ -388,11 +425,23 @@ class Mysql extends React.Component {
             }
           </Select>
 
-          <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectDatabaseChange} placeholder='请选择数据库'
+          <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectDatabaseChange} placeholder='请选择数据库（可不选）'
                   loading={loading} disabled={this.state.choose} value={this.state.database} showSearch>
             {this.state.databases ?
               this.state.databases.map((item, key) => {
                 return <Option value={item.Database} key={key}>{item.Database}</Option>
+              })
+              :
+              <Option value=""></Option>
+            }
+
+          </Select>
+
+          <Select style={{marginBottom: 20, minWidth: 200}} onChange={this.SelectTableChange} placeholder='请选择数据表（可不选）'
+                  loading={loading} disabled={this.state.choose} value={this.state.table} showSearch>
+            {this.state.tables ?
+              this.state.tables.map((item, key) => {
+                return <Option value={item.Tables_in_cmdb} key={key}>{item.Tables_in_cmdb}</Option>
               })
               :
               <Option value=""></Option>
@@ -411,7 +460,16 @@ class Mysql extends React.Component {
             </div>
           </Col>
 
-          <Col span={20}>
+
+          <Col span={4}>
+            <div>
+              <Table style={{marginBottom: 20}} columns={this.state.field_column} dataSource={this.state.field_data}
+                     loading={loading} size='small'
+                     scroll={{y: 190}} pagination={false}/>
+            </div>
+          </Col>
+
+          <Col span={16}>
             <div>
               <Table style={{marginBottom: 20}} columns={this.state.his_column} dataSource={this.state.his_data}
                      loading={loading} size='small'

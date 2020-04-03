@@ -11,3 +11,7 @@ export async function Mysql(params) {
     data: params,
   });
 }
+
+export async function Fields(payload) {
+  return request(`${window.requestURL}/fields?instance=${payload.instance}&database=${payload.database}&table=${payload.table}`);
+}
