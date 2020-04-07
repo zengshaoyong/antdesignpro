@@ -39,6 +39,7 @@ class Mysql extends React.Component {
     table_data: [],
     field_column: [{'title': '表字段', 'dataIndex': 'field'}],
     field_data: [],
+    field_name: '',
     tables: '',
     table: [],
   };
@@ -131,6 +132,7 @@ class Mysql extends React.Component {
   }
 
   SelectTableChange = (value) => {
+    // console.log('table', value)
     this.setState({
       table: value,
     }, () => {
@@ -266,18 +268,24 @@ class Mysql extends React.Component {
         if (data.length > 0) {
           // console.log(data[0].Database)
           let keys = Object.keys(data[0])
-          // console.log('keys', keys)
           let clumn = []
+          let tables_arr = []
           keys.forEach((item) => {
             if (item != 'key') {
               clumn.push({'title': item, 'dataIndex': item})
             }
           })
+          data.forEach((item) => {
+            // console.log(Object.values(item))
+            tables_arr.push(Object.values(item)[0])
+          })
+
+          // console.log(tables_arr)
 
           this.setState({
             table_data: data,
             table_column: clumn,
-            tables: data,
+            tables: tables_arr,
           })
         }
       });
@@ -442,7 +450,7 @@ class Mysql extends React.Component {
                   loading={loading} disabled={this.state.choose} value={this.state.table} showSearch>
             {this.state.tables ?
               this.state.tables.map((item, key) => {
-                return <Option value={item.Tables_in_cmdb} key={key}>{item.Tables_in_cmdb}</Option>
+                return <Option value={item} key={key}>{item}</Option>
               })
               :
               <Option value=""></Option>
