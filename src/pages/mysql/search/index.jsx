@@ -515,7 +515,7 @@ class Mysql extends React.Component {
         {
           this.state.columns ?
             <div><Table columns={this.state.columns} dataSource={this.state.data} loading={loading} size='small'
-                        pagination={{defaultPageSize: 10}}/></div>
+                        pagination={{defaultPageSize: 10}} scroll={{x: true}}/></div>
             :
             <div></div>
         }
